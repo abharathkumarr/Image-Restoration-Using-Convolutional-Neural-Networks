@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Automatic image colorization</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+<style type="text/css">
+	/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('http://i.stack.imgur.com/FhHRx.gif') 
+                50% 50% 
+                no-repeat;
+}
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+
+</style>
+</head>
+<body>
+<div class="container">
+	<div class="jumbotron">
+    	<h1> Colorize the images </h1> 
+    	
+  	</div>
+	<div class="row">
+  		<div class="col-sm">
+  			<div class="card">
+			  	<div class="card-header">
+			    Original Image
+			  	</div>
+			  	
+			    	<img id="imageOriginal" alt="Upload" class="card-img-top"/>
+			  	
+			  	<div class="card-footer text-muted">
+				<form action="{{ url_for('handle_data') }}" method="post">
+    					<input type="file" id="imageInput" name="file" enctype="multipart/form-data">
+   
+
+
+
+					<ul class="list-group list-group-flush">
+				    <li class="list-group-item">
+				    	<button type="submit"  class="btn btn-primary">Colorize</button>
+				    </li>
+				</ul>
+					</form>
+
+
+
+
+
+			    	</div>
+			</div>
+  		</div>
+  		
+  	</div>
+</div>
+<div class="modal"></div>
+<script type="text/javascript">
+document.body.classList.add("loading");
+let imgElement = document.getElementById('imageOriginal');
+let inputElement = document.getElementById('imageInput');
+inputElement.addEventListener('change', (e) => {
+  imgElement.src = URL.createObjectURL(e.target.files[0]);
+}, false);
+let mat;
+imgElement.onload = function() {
+  mat = cv.imread(imgElement);
+  cv.imshow('imageCanvas', mat);
+};
+
+
+</script>
+<script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+</body>
+</html>
