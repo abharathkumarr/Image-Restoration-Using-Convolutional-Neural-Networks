@@ -1,5 +1,5 @@
 # IMage -colorization using simple Flask and caffe model:
-Conversion of black and white images to color
+Conversion of black and white images to color 
 
 Requriements:
 ==============
